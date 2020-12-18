@@ -14,6 +14,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\helpers\Url;
 
 /**
  * Site controller
@@ -106,6 +107,7 @@ class SiteController extends Controller
                 ],
             ];
 
+            $menu_items[] = ['label' => 'Выйти', 'icon' => 'log-out', 'url' => Url::to(['/site/logout']), 'template' => '<a href="{url}" data-method="post">{icon}{label}</a>'];
 
 
             $session = Yii::$app->session;
@@ -115,8 +117,12 @@ class SiteController extends Controller
         } else {
             $model->password = '';
 
+            $menu_items = [];
+            $menu_items[] = ['label' => 'Вход', 'url' => ['/site/login']];
+
             return $this->render('login', [
                 'model' => $model,
+                'menu_items' => $menu_items,
             ]);
         }
     }

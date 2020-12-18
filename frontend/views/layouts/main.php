@@ -14,6 +14,10 @@ use kartik\sidenav\SideNav;
 use yii\web\Controller;
 
 $session = Yii::$app->session;
+if (!isset($session['menu_items']) and $session->isActive) {
+    Yii::$app->user->logout();
+    return Yii::$app->response->redirect(['site/login']);
+}
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -28,83 +32,43 @@ AppAsset::register($this);
     <?php $this->head() ?>
 </head>
 <body>
-    <div class="wrap">
+    <?php $this->beginBody() ?>
+    <div class="wrap">        
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
 
-        <div class="btn btn-lg sidenav-open-btn" onclick="toggleNav()" ><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></div>
-        <!--old menu here-->
-
-
-        <?php
-        NavBar::begin([
-            'brandLabel' => '<img src="' . Yii::getAlias("@web/favicon.png") . '"  class="pull-left"/>Test Your Migth',
-//                'brandUrl' => Yii::$app->homeUrl,
-            'innerContainerOptions' => ['class' => 'container-fluid'],
-            'options' => [
-                'class' => 'navbar-inverse navbar-fixed-top',
-            ],
-        ]);
-
-        if (Yii::$app->user->isGuest) {
-            $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
-        } else {
-
-            $menuItems[] = '<li>'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                            'Выйти (' . Yii::$app->user->identity->username . ')', ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>';
-        }
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => $menuItems,
-            'encodeLabels' => false,
-        ]);
-        NavBar::end();
-
-
-    if (!isset($session['menu_items']) and $session->isActive) {
-    Yii::$app->user->logout();
-    return Yii::$app->response->redirect(['site/login']);
-}
-?>
-        <div id="wrapper">
-
-
-            <div id="mySidenav" class="sidenav"><?php
-        echo SideNav::widget([
-            'type' => SideNav::TYPE_PRIMARY,
+                    <div class="navbar-header">
+                        <div class="btn btn-lg sidenav-open-btn" onclick="toggleNav()" ><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></div>
+                        <a class="navbar-brand" href="#">Brand</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                </div><!-- /.container-fluid -->
+            </nav>
+            <div id="wrapper">
+                <div id="mySidenav" class="sidenav">
+                    <?php
+                    echo SideNav::widget([
+                        'type' => SideNav::TYPE_PRIMARY,
 //                        'heading' => 'Меню',
-            'items' => (!Yii::$app->user->isGuest) ? $session['menu_items'] : [],
-        ]);
-        ?></div>
-
-
-            <div id="page-content-wrapper">
-
-                <div class="container-fluid" id="main">
-
-
-                    <?=
-                    Breadcrumbs::widget([
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-                    ])
+                        'items' => (!Yii::$app->user->isGuest) ? $session['menu_items'] : [],
+                    ]);
                     ?>
-                    <?= Alert::widget() ?>
-
-                    <?= $content ?>
-
                 </div>
-
-            </div>
-
-
-        </div>
-
+                <div id="page-content-wrapper">
+                    <div class="container-fluid" id="main">
+                        <?php
+                            echo Breadcrumbs::widget([
+                            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        ]);
+                        ?>
+                        <?= Alert::widget() ?>
+                        <?= $content ?>
+                    </div>
+                </div>
+            </div>        
     </div>
-
     <?php $this->endBody() ?>
-</body>
+    </body>
 </html>
 <?php $this->endPage() ?>

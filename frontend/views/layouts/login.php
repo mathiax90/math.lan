@@ -30,88 +30,43 @@ AppAsset::register($this);
         <?php $this->head() ?>
     </head>
     <body>
-
         <?php $this->beginBody() ?>
-
         <div class="wrap">
+            <nav class="navbar navbar-inverse navbar-fixed-top">
+                <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
 
-            <div class="btn btn-lg sidenav-open-btn" onclick="toggleNav()" ><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></div>
-            <!--old menu here-->
-
-
-            <?php
-            NavBar::begin([
-                'brandLabel' => '<img src="' . Yii::getAlias("@web/favicon.png") . '"  class="pull-left"/>Test Your Mighth',
-//                'brandUrl' => Yii::$app->homeUrl,
-                'innerContainerOptions' => ['class' => 'container-fluid'],
-                'options' => [
-                    'class' => 'navbar-inverse navbar-fixed-top',
-                ],
-            ]);
-            ?>
-
-            <?php
-            if (Yii::$app->user->isGuest) {
-//                $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-                $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
-            }
-            else {
-
-                //$menuItems = $session['menu_items'];
-//                $menuItems[] = '<li class="btn btn-link" onclick="toggleNav()">open</li>';
-//                $menuItems[] = ['label' => 'connect', 'url' => ['/site/connect']];
-                $menuItems[] = '<li>'
-                        . Html::beginForm(['/site/logout'], 'post')
-                        . Html::submitButton(
-                                'Выйти (' . Yii::$app->user->identity->name . ')', ['class' => 'btn btn-link logout']
-            )
-                        . Html::endForm()
-                        . '</li>';
-            }
-            echo Nav::widget([
-                'options' => ['class' => 'navbar-nav navbar-right'],
-                'items' => $menuItems,
-                'encodeLabels' => false,
-            ]);
-            NavBar::end();
-
-
-            ?>
+                    <div class="navbar-header">
+                        <div class="btn btn-lg sidenav-open-btn" onclick="toggleNav()" ><span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span></div>
+                        <a class="navbar-brand" href="#">Brand</a>
+                    </div>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                </div><!-- /.container-fluid -->
+            </nav>
             <div id="wrapper">
-
-
-                <div id="mySidenav" class="sidenav"><?php
+                <div id="mySidenav" class="sidenav">
+                    <?php
+                    $menu_items[] = ['label' => 'Вход', 'url' => ['/site/login']];
                     echo SideNav::widget([
                         'type' => SideNav::TYPE_PRIMARY,
-//                        'heading' => 'Меню',
-                        'items' => [],
+                        //'heading' => 'Меню',
+                        'items' => $menu_items,
                     ]);
-                    ?></div>
-
-
+                    ?>
+                </div>
                 <div id="page-content-wrapper">
-
                     <div class="container-fluid" id="main">
-
-
                         <?=
                         Breadcrumbs::widget([
                             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                         ])
                         ?>
                         <?= Alert::widget() ?>
-
                         <?= $content ?>
-
                     </div>
-
                 </div>
-
-
             </div>
-
         </div>
-
         <?php $this->endBody() ?>
     </body>
 </html>
