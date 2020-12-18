@@ -50,20 +50,7 @@ $this->title = "Таблица умножения";
         ?>
         <?php //echo $form->field($model, 'p22')->textInput(['style' => 'width:100px']); ?>
         <?= Html::submitButton('Завершить', ['class' => 'btn btn-danger', 'name' => 'upload']) ?>
-        <?php
-        ActiveForm::end();
-        if (isset($result)) {
-            if ($result) {
-                echo "<pre>";
-                if (isset($log_id)) {
-                    echo "ID записи журнала: " . $log_id . "<br />";
-                }
-                echo (print_r($errors, true));
-                echo "</pre>";
-            } else {
-                echo "Ошибка валидации.";
-            }
-        }
-        ?>
+        <?php ActiveForm::end(); ?>
+
     </div>
 </div>
