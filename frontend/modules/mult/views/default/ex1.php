@@ -45,8 +45,10 @@ $this->title = "Таблица умножения";
         array_multisort($order, SORT_DESC, $model->fieldArray);
         
         foreach ($model->fieldArray as $fieldName => $fieldDetail) {
-            echo $form->field($model, $fieldName)->textInput(['style' => 'width:100px']);
-        }
+            //echo $form->field($model, $fieldName)->textInput(['style' => 'width:100px']);
+    echo $form->field($model, $fieldName, ['inputOptions' => [
+            'autocomplete' => 'off', 'style' => 'width:50px']]);
+}
         ?>
         <?php //echo $form->field($model, 'p22')->textInput(['style' => 'width:100px']); ?>
         <?= Html::submitButton('Завершить', ['class' => 'btn btn-danger', 'name' => 'upload']) ?>
