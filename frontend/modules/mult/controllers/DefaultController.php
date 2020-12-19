@@ -30,7 +30,8 @@ class DefaultController extends Controller
             if (true) {
                 // file is uploaded successfully
                 return $this->render('ex1result', [
-                            'result' => $result,
+                            'model' => $model,
+                            'result' => $result
                 ]);
             }
         }

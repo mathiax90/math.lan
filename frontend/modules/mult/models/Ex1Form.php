@@ -101,11 +101,11 @@ class Ex1Form extends Model {
         $ex1 = Ex1::findOne(['user_id' => $user_id, 'date_end' => null]);
         $ex1->date_end = new Expression('NOW()');
         $ex1->save();
-
         $error_count = 0;
-        foreach ($this->fieldArray as $key => $value) {
+        foreach ($this->fieldArray as $key => &$value) {
             if ($this->$key != $value['answer']) {
                 $error_count++;
+//                $value['hasError'] = true;
             }
         }
         $ex1->error_count = $error_count;
